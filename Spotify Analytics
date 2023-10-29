@@ -43,3 +43,8 @@ SELECT track_name, artist_name, popularity
 FROM BIT_DB.spotifydata
 ORDER BY popularity desc
 LIMIT 10
+
+#In my third query I determined which artist released the shortest song.
+SELECT artist_name
+FROM BIT_DB.Spotifydata
+WHERE duration_ms IN (SELECT MIN(duration_ms) FROM BIT_DB.Spotifydata);

@@ -1,0 +1,88 @@
+
+SELECT CustomerId, FirstName, LastName, Country
+FROM chinook.customers
+WHERE Country<>"USA";
+
+SELECT CustomerId, FirstName, LastName, Country
+FROM chinook.customers
+WHERE Country="Brazil";
+
+SELECT c.FirstName, c.LastName,i.InvoiceID, i.InvoiceDate, i.BillingAddress
+FROM invoices i
+LEFT JOIN customers c
+ON c.CustomerId=i.Invoiceid
+WHERE country="Brazil";
+
+SELECT FirstName, LastName
+FROM chinook.employees
+WHERE Title="Sales Support Agent";
+
+SELECT DISTINCT BillingCountry
+FROM chinook.invoices;
+
+SELECT e.FirstName, e.LastName, i.InvoiceId
+FROM chinook.employees e
+JOIN chinook.customers c
+ON e.EmployeeId=c.SupportRepId
+JOIN chinook.invoices i 
+ON i.CustomerId=c.CustomerId;
+
+SELECT i.total, c.FirstName, c.LastName, c.Country, e.FirstName, e.LastName
+FROM chinook.employees e
+JOIN chinook.customers c
+ON e.employeeId=c.SupportRepId
+JOIN chinook.invoices i
+ON i.CustomerId=c.CustomerId
+GROUP BY c.FirstName;
+
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-26';
+
+
+SELECT SUM(invoices.total)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-26';
+
+
+SELECT t.Name AS 'Track', i.InvoiceLineID
+FROM chinook.tracks t
+JOIN chinook.invoice_items i
+ON t.Trackid=i.TrackId;
+
+SELECT t.Name AS 'Track', a.Name AS 'Artist', i.InvoiceLineID
+FROM chinook.tracks t
+JOIN chinook.invoice_items i
+ON t.Trackid=i.Trackid
+JOIN chinook.albums al
+ON t.AlbumId=al.Albumid
+JOIN chinook.artists a
+ON al.ArtistId=a.ArtistId;
+
+
+SELECT t.Name AS 'Track Name', a.Title AS 'Album Title', m.Name AS 'Media Type', g.Name AS 'Genre'
+FROM chinook.tracks t
+JOIN chinook.Albums a 
+on a.AlbumId = t.AlbumId
+JOIN chinook.Media_Types m
+on m.MediaTypeId = t.MediaTypeId
+JOIN chinook.Genres g
+on g.GenreId = t.GenreId;
+
+SELECT ROUND(SUM(i.total),2) AS 'Total Sales', e.FirstName, e.LastName
+FROM chinook.employees e
+JOIN chinook.customers c
+ON e.EmployeeId= c.SupportRepId
+JOIN chinook.invoices i
+ON c.Customerid=i.customerid
+GROUP BY e.FirstName;
+
+SELECT ROUND(SUM(i.total),2) AS 'Total Sales', e.FirstName, e.LastName
+FROM chinook.employees e
+JOIN chinook.customers c
+ON e.EmployeeId= c.SupportRepId
+JOIN chinook.invoices i
+ON c.Customerid=i.customerid
+GROUP BY e.FirstName
+ORDER BY SUM(i.total)desc
+LIMIT 1
